@@ -3,6 +3,8 @@ import { Router } from "express";
 import { readdirSync } from "fs";
 import path from "path";
 
+import validateToken from "../middlewares/validateToken.middleware.js";
+
 const PATH_ROUTER = path.dirname(fileURLToPath(import.meta.url));
 
 const router = Router();
@@ -20,8 +22,10 @@ readdirSync(PATH_ROUTER).filter((fileName) => {
     return null;
   }
 
+  const authMiddleware = cleanName === "auth" ? [] : [validateToken];
+
   import(`./${fileName}`).then((moduleRouter) => {
-    router.use(`/${cleanName}`, moduleRouter.default);
+    router.use(`/${cleanName}`, ...authMiddleware, moduleRouter.default);
   });
 });
 

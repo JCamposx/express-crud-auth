@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import express from "express";
 import morgan from "morgan";
 
@@ -15,6 +16,8 @@ if (NODE_ENV === NODE_ENVS.DEVELOPMENT) {
 }
 
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.use("/api", routes);
 
