@@ -1,26 +1,21 @@
 import mongoose from "mongoose";
 
-const movieSchema = new mongoose.Schema(
+const directorSchema = new mongoose.Schema(
   {
-    title: {
+    name: {
       type: String,
       required: true,
       trim: true,
     },
-    synopsis: {
+    lastname: {
       type: String,
-      required: false,
+      required: true,
       trim: true,
     },
-    release_date: {
-      type: Date,
+    nationality: {
+      type: String,
       required: true,
-    },
-    rating: {
-      type: Number,
-      required: true,
-      min: 0,
-      max: 10,
+      trim: true,
     },
   },
   {
@@ -38,4 +33,4 @@ const movieSchema = new mongoose.Schema(
   },
 );
 
-export default mongoose.model("Movie", movieSchema);
+export default mongoose.model("Director", directorSchema);
