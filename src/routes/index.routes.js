@@ -1,7 +1,7 @@
-import { Router } from "express";
-import path from "path";
 import { fileURLToPath } from "url";
+import { Router } from "express";
 import { readdirSync } from "fs";
+import path from "path";
 
 const PATH_ROUTER = path.dirname(fileURLToPath(import.meta.url));
 

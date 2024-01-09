@@ -2,8 +2,8 @@ import bcrypt from "bcryptjs";
 
 import { COOKIE_OPTIONS } from "../constants.js";
 
-import User from "../models/user.model.js";
 import { createAccessToken } from "../libs/jwt.js";
+import User from "../models/user.model.js";
 
 /**
  * Register a new user and generate an access token.

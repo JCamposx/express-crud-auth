@@ -1,8 +1,8 @@
 import express from "express";
 import morgan from "morgan";
 
-import { NODE_ENV } from "./config.js";
 import { NODE_ENVS } from "./constants.js";
+import { NODE_ENV } from "./config.js";
 
 import routes from "./routes/index.routes.js";
 
