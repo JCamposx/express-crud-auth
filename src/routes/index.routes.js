@@ -15,11 +15,11 @@ const cleanFileName = (fileName) => {
   return file;
 };
 
-readdirSync(PATH_ROUTER).filter((fileName) => {
+readdirSync(PATH_ROUTER).forEach((fileName) => {
   const cleanName = cleanFileName(fileName);
 
   if (cleanName === "index") {
-    return null;
+    return;
   }
 
   const authMiddleware = cleanName === "auth" ? [] : [validateToken];
