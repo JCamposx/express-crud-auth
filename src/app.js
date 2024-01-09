@@ -14,6 +14,8 @@ if (NODE_ENV === NODE_ENVS.DEVELOPMENT) {
   app.use(morgan("combined"));
 }
 
+app.use(express.json());
+
 app.use("/api", routes);
 
 export default app;
