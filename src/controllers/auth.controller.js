@@ -10,15 +10,7 @@ import User from "../models/user.model.js";
  */
 export const register = async (req, res) => {
   try {
-    const { username, email, password, password_confirmation } = req.body;
-
-    if (password !== password_confirmation) {
-      res.status(400).json({
-        message: "Password confirmation doesn't match password",
-      });
-
-      return;
-    }
+    const { username, email, password } = req.body;
 
     const foundUserByUsername = await User.findOne({ username });
 
