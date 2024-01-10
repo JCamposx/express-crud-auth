@@ -5,7 +5,7 @@ import Movie from "../models/movie.model.js";
  */
 export const index = async (req, res) => {
   try {
-    const movies = await Movie.find();
+    const movies = await Movie.find().populate("director");
 
     res.status(200).json({
       data: movies,
@@ -24,7 +24,7 @@ export const show = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const foundMovie = await Movie.findById(id);
+    const foundMovie = await Movie.findById(id).populate("director");
 
     if (!foundMovie) {
       res.status(404).json({
@@ -49,13 +49,14 @@ export const show = async (req, res) => {
  */
 export const store = async (req, res) => {
   try {
-    const { title, synopsis, release_date, rating } = req.body;
+    const { title, synopsis, release_date, rating, director_id } = req.body;
 
     const movie = new Movie({
       title,
       synopsis,
       release_date,
       rating,
+      director: director_id,
     });
 
     const savedMovie = await movie.save();
@@ -77,7 +78,7 @@ export const update = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const { title, synopsis, release_date, rating } = req.body;
+    const { title, synopsis, release_date, rating, director_id } = req.body;
 
     const updatedMovie = await Movie.findByIdAndUpdate(
       id,
@@ -86,6 +87,7 @@ export const update = async (req, res) => {
         synopsis,
         release_date,
         rating,
+        director: director_id,
       },
       {
         new: true,

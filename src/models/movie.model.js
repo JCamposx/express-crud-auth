@@ -22,6 +22,11 @@ const movieSchema = new mongoose.Schema(
       min: 0,
       max: 10,
     },
+    director: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Director",
+      required: true,
+    },
   },
   {
     timestamps: true,
