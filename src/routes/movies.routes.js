@@ -7,6 +7,8 @@ import {
   store,
   update,
 } from "../controllers/movie.controller.js";
+import validateSchema from "../middlewares/validateSchema.middleware.js";
+import { storeSchema, updateSchema } from "../schemas/movie.schema.js";
 
 const router = Router();
 
@@ -14,9 +16,9 @@ router.get("/", index);
 
 router.get("/:id", show);
 
-router.post("/", store);
+router.post("/", validateSchema(storeSchema), store);
 
-router.patch("/:id", update);
+router.patch("/:id", validateSchema(updateSchema), update);
 
 router.delete("/:id", destroy);
 
