@@ -1,3 +1,5 @@
+import HTTPError from "../libs/httpError.js";
+
 /**
  * Validate request data against a Zod schema.
  */
@@ -8,11 +10,7 @@ const validateSchema = (schema) => (req, res, next) => {
     next();
   } catch (error) {
     if (!error.errors) {
-      res.status(500).json({
-        message: error.message,
-      });
-
-      return;
+      throw new HTTPError(error.message);
     }
 
     const validationErrors = error.errors.reduce((acc, err) => {
@@ -25,11 +23,7 @@ const validateSchema = (schema) => (req, res, next) => {
       return acc;
     }, {});
 
-    res.status(400).json({
-      errors: validationErrors,
-    });
-
-    return;
+    throw new HTTPError("Failed validating data", 422, validationErrors);
   }
 };
 
