@@ -1,3 +1,4 @@
+import Director from "../models/director.model.js";
 import Movie from "../models/movie.model.js";
 
 /**
@@ -51,6 +52,16 @@ export const store = async (req, res) => {
   try {
     const { title, synopsis, release_date, rating, director_id } = req.body;
 
+    const foundDirector = await Director.findById(director_id);
+
+    if (!foundDirector) {
+      res.status(404).json({
+        message: "Director not found",
+      });
+
+      return;
+    }
+
     const movie = new Movie({
       title,
       synopsis,
@@ -80,6 +91,16 @@ export const update = async (req, res) => {
 
     const { title, synopsis, release_date, rating, director_id } = req.body;
 
+    const foundDirector = await Director.findById(director_id);
+
+    if (!foundDirector) {
+      res.status(404).json({
+        message: "Director not found",
+      });
+
+      return;
+    }
+
     const updatedMovie = await Movie.findByIdAndUpdate(
       id,
       {
@@ -98,6 +119,7 @@ export const update = async (req, res) => {
       res.status(404).json({
         message: "Movie not found",
       });
+
       return;
     }
 
