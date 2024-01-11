@@ -5,6 +5,7 @@ import morgan from "morgan";
 import { NODE_ENVS } from "./constants.js";
 import { NODE_ENV } from "./config.js";
 
+import { responseErrorHandler } from "./middlewares/errorHandler.middleware.js";
 import routes from "./routes/index.routes.js";
 
 const app = express();
@@ -20,5 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api", routes);
+
+app.use(responseErrorHandler);
 
 export default app;
