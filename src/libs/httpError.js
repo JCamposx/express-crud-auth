@@ -4,14 +4,12 @@
  * @extends Error
  * @param {string} message - The error message.
  * @param {number} [statusCode=500] - The HTTP status code.
- * @param {array} [errors=[]] - Array of additional error information.
  */
 class HTTPError extends Error {
-  constructor(message, statusCode = 500, errors = []) {
+  constructor(message, statusCode = 500) {
     super(message);
 
     this.statusCode = statusCode;
-    this.errors = errors;
   }
 }
 
