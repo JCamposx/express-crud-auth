@@ -29,13 +29,15 @@ const userSchema = new mongoose.Schema(
 userSchema.pre("save", async function (next) {
   const { username, email } = this;
 
-  const foundUserByUsername = await this.constructor.findOne({ username });
+  const User = mongoose.model("User", userSchema);
+
+  const foundUserByUsername = await User.findOne({ username });
 
   if (foundUserByUsername) {
     throw new HTTPError("Username is already taken", 409);
   }
 
-  const foundUserByEmail = await this.constructor.findOne({ email });
+  const foundUserByEmail = await User.findOne({ email });
 
   if (foundUserByEmail) {
     throw new HTTPError("Email is already taken", 409);
