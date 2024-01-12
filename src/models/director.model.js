@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+import HTTPError from "../libs/httpError.js";
+
 const directorSchema = new mongoose.Schema(
   {
     name: {
@@ -30,6 +32,17 @@ const directorSchema = new mongoose.Schema(
         delete ret.updatedAt;
       },
     },
+  },
+);
+
+directorSchema.post(
+  ["findOne", "findOneAndUpdate", "findOneAndDelete"],
+  function (doc, next) {
+    if (!doc) {
+      throw new HTTPError("Director not found", 404);
+    }
+
+    next();
   },
 );
 

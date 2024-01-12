@@ -1,5 +1,4 @@
 import Director from "../models/director.model.js";
-import HTTPError from "../libs/httpError.js";
 
 /**
  * Get all movie directors.
@@ -19,10 +18,6 @@ export const show = async (req, res) => {
   const { id } = req.params;
 
   const foundDirector = await Director.findById(id);
-
-  if (!foundDirector) {
-    throw new HTTPError("Director not found", 404);
-  }
 
   res.status(200).json({
     data: foundDirector,
@@ -68,10 +63,6 @@ export const update = async (req, res) => {
     },
   );
 
-  if (!updatedDirector) {
-    throw new HTTPError("Director not found", 404);
-  }
-
   res.status(200).json({
     data: updatedDirector,
   });
@@ -83,11 +74,7 @@ export const update = async (req, res) => {
 export const destroy = async (req, res) => {
   const { id } = req.params;
 
-  const deletedDirector = await Director.findByIdAndDelete(id);
-
-  if (!deletedDirector) {
-    throw new HTTPError("Director not found", 404);
-  }
+  await Director.findByIdAndDelete(id);
 
   res.sendStatus(204);
 };
