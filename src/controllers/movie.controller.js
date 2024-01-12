@@ -1,6 +1,4 @@
-import Director from "../models/director.model.js";
 import Movie from "../models/movie.model.js";
-import HTTPError from "../libs/httpError.js";
 
 /**
  * Get all movies.
@@ -20,10 +18,6 @@ export const show = async (req, res) => {
   const { id } = req.params;
 
   const foundMovie = await Movie.findById(id).populate("director");
-
-  if (!foundMovie) {
-    throw new HTTPError("Movie not found", 404);
-  }
 
   res.status(200).json({
     data: foundMovie,
@@ -73,10 +67,6 @@ export const update = async (req, res) => {
     },
   );
 
-  if (!updatedMovie) {
-    throw new HTTPError("Movie not found", 404);
-  }
-
   res.status(200).json({
     data: updatedMovie,
   });
@@ -88,11 +78,7 @@ export const update = async (req, res) => {
 export const destroy = async (req, res) => {
   const { id } = req.params;
 
-  const deletedMovie = await Movie.findByIdAndDelete(id);
-
-  if (!deletedMovie) {
-    throw new HTTPError("Movie not found", 404);
-  }
+  await Movie.findByIdAndDelete(id);
 
   res.sendStatus(204);
 };
