@@ -12,18 +12,6 @@ import User from "../models/user.model.js";
 export const register = async (req, res) => {
   const { username, email, password } = req.body;
 
-  const foundUserByUsername = await User.findOne({ username });
-
-  if (foundUserByUsername) {
-    throw new HTTPError("Username is already taken", 409);
-  }
-
-  const foundUserByEmail = await User.findOne({ email });
-
-  if (foundUserByEmail) {
-    throw new HTTPError("Email is already taken", 409);
-  }
-
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = new User({
