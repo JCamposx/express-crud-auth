@@ -23,7 +23,8 @@ export const storeSchema = z.object({
     .max(10, {
       message: "Maximum rating is 10",
     }),
-  director_id: z.string({
+  director_id: z
+    .string({
       required_error: "Director ID is required",
     })
     .refine((value) => mongoose.isValidObjectId(value), {
@@ -32,8 +33,8 @@ export const storeSchema = z.object({
 });
 
 export const updateSchema = z.object({
-  title: z.coerce.string().optional(),
-  synopsis: z.coerce.string().optional(),
+  title: z.string().optional(),
+  synopsis: z.string().optional(),
   release_date: z.coerce
     .date({
       invalid_type_error: "Invalid date",
@@ -50,7 +51,7 @@ export const updateSchema = z.object({
       message: "Maximum rating is 10",
     })
     .optional(),
-  director_id: z.coerce
+  director_id: z
     .string({
       invalid_type_error: "Invalid director ID",
     })

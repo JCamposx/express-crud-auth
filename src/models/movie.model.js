@@ -57,4 +57,22 @@ movieSchema.pre("save", async function (next) {
   next();
 });
 
+movieSchema.pre("findOneAndUpdate", async function (next) {
+  const directorId = this._update.director;
+
+  if (!directorId) {
+    next();
+  }
+
+  const foundDirector = await Director.findById(directorId);
+
+  if (!foundDirector) {
+    throw new HTTPError("Director not found", 422, {
+      director_id: ["Director not found"],
+    });
+  }
+
+  next();
+});
+
 export default mongoose.model("Movie", movieSchema);
