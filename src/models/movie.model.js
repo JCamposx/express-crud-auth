@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-import ValidationError from "../libs/validationError.js";
 import HTTPError from "../libs/httpError.js";
 import Director from "./director.model.js";
 
@@ -48,31 +47,28 @@ const movieSchema = new mongoose.Schema(
 );
 
 movieSchema.pre("save", async function (next) {
-  const foundDirector = await Director.findById(this.director);
+  const { director: directorId } = this;
 
-  if (!foundDirector) {
-    throw new ValidationError({
-      director_id: "Director not found",
-    });
-  }
+  await Director.findById(directorId);
 
   next();
 });
 
 movieSchema.pre("findOneAndUpdate", async function (next) {
-  const directorId = this._update.director;
+  const { director: directorId } = this._update;
+  const { _id: id } = this._conditions;
+
+  const Movie = mongoose.model("Movie", movieSchema);
+
+  if (id) {
+    await Movie.findById(id);
+  }
 
   if (!directorId) {
     next();
   }
 
-  const foundDirector = await Director.findById(directorId);
-
-  if (!foundDirector) {
-    throw new ValidationError({
-      director_id: "Director not found",
-    });
-  }
+  await Director.findById(directorId);
 
   next();
 });
@@ -81,7 +77,7 @@ movieSchema.post(
   ["findOne", "findOneAndUpdate", "findOneAndDelete"],
   function (doc, next) {
     if (!doc) {
-      throw new HTTPError("Director not found", 404);
+      throw new HTTPError("Movie not found", 404);
     }
 
     next();
