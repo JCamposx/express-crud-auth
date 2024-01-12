@@ -1,3 +1,4 @@
+import ValidationError from "../libs/validationError.js";
 import HTTPError from "../libs/httpError.js";
 
 /**
@@ -23,7 +24,7 @@ const validateSchema = (schema) => (req, res, next) => {
       return acc;
     }, {});
 
-    throw new HTTPError("Failed validating data", 422, validationErrors);
+    throw new ValidationError(validationErrors);
   }
 };
 

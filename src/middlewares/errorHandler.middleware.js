@@ -22,14 +22,14 @@ export const responseErrorHandler = (err, req, res, next) => {
 
   const statusCode = err.statusCode || 500;
   const message = err.message || "Something went wrong";
-  const errors = err.errors || [];
+  const errors = err.errors || {};
 
   const responseError = {
     message,
     errors,
   };
 
-  if (errors.length < 1) {
+  if (Object.keys(errors).length === 0) {
     delete responseError.errors;
   }
 
