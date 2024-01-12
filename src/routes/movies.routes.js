@@ -1,25 +1,19 @@
 import { Router } from "express";
 
-import {
-  destroy,
-  index,
-  show,
-  store,
-  update,
-} from "../controllers/movie.controller.js";
 import validateSchema from "../middlewares/validateSchema.middleware.js";
 import { storeSchema, updateSchema } from "../schemas/movie.schema.js";
+import MovieController from "../controllers/movie.controller.js";
 
 const router = Router();
 
-router.get("/", index);
+router.get("/", MovieController.index);
 
-router.get("/:id", show);
+router.get("/:id", MovieController.show);
 
-router.post("/", validateSchema(storeSchema), store);
+router.post("/", validateSchema(storeSchema), MovieController.store);
 
-router.patch("/:id", validateSchema(updateSchema), update);
+router.patch("/:id", validateSchema(updateSchema), MovieController.update);
 
-router.delete("/:id", destroy);
+router.delete("/:id", MovieController.destroy);
 
 export default router;
