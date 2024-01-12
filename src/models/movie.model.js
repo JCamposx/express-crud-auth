@@ -1,3 +1,5 @@
+import HTTPError from "../libs/httpError.js";
+import Director from "./director.model.js";
 import mongoose from "mongoose";
 
 const movieSchema = new mongoose.Schema(
@@ -42,5 +44,17 @@ const movieSchema = new mongoose.Schema(
     },
   },
 );
+
+movieSchema.pre("save", async function (next) {
+  const foundDirector = await Director.findById(this.director);
+
+  if (!foundDirector) {
+    throw new HTTPError("Director not found", 422, {
+      director_id: ["Director not found"],
+    });
+  }
+
+  next();
+});
 
 export default mongoose.model("Movie", movieSchema);

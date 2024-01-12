@@ -36,12 +36,6 @@ export const show = async (req, res) => {
 export const store = async (req, res) => {
   const { title, synopsis, release_date, rating, director_id } = req.body;
 
-  const foundDirector = await Director.findById(director_id);
-
-  if (!foundDirector) {
-    throw new HTTPError("Director not found", 404);
-  }
-
   const movie = new Movie({
     title,
     synopsis,

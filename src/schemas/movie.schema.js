@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 import { z } from "zod";
 
 export const storeSchema = z.object({
-  title: z.coerce.string({
+  title: z.string({
     required_error: "Title is required",
   }),
-  synopsis: z.coerce.string({
+  synopsis: z.string({
     required_error: "Synopsis is required",
   }),
   release_date: z.coerce.date({
@@ -23,8 +23,7 @@ export const storeSchema = z.object({
     .max(10, {
       message: "Maximum rating is 10",
     }),
-  director_id: z.coerce
-    .string({
+  director_id: z.string({
       required_error: "Director ID is required",
     })
     .refine((value) => mongoose.isValidObjectId(value), {
