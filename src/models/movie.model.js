@@ -1,7 +1,8 @@
+import mongoose from "mongoose";
+
 import ValidationError from "../libs/validationError.js";
 import HTTPError from "../libs/httpError.js";
 import Director from "./director.model.js";
-import mongoose from "mongoose";
 
 const movieSchema = new mongoose.Schema(
   {
@@ -51,7 +52,7 @@ movieSchema.pre("save", async function (next) {
 
   if (!foundDirector) {
     throw new ValidationError({
-      director_id: ["Director not found"],
+      director_id: "Director not found",
     });
   }
 
@@ -69,7 +70,7 @@ movieSchema.pre("findOneAndUpdate", async function (next) {
 
   if (!foundDirector) {
     throw new ValidationError({
-      director_id: ["Director not found"],
+      director_id: "Director not found",
     });
   }
 
