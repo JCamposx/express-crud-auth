@@ -7,73 +7,87 @@ import HTTPError from "../libs/httpError.js";
 import User from "../models/user.model.js";
 
 /**
- * Register a new user and generate an access token.
+ * Authentication controller.
+ * @class AuthController
  */
-export const register = async (req, res) => {
-  const { username, email, password } = req.body;
+class AuthController {
+  /**
+   * Register a new user and generate an access token.
+   * @static
+   * @async
+   */
+  static async register(req, res) {
+    const { username, email, password } = req.body;
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = new User({
-    username,
-    email,
-    password: hashedPassword,
-  });
+    const user = new User({
+      username,
+      email,
+      password: hashedPassword,
+    });
 
-  const savedUser = await user.save();
+    const savedUser = await user.save();
 
-  const token = await createAccessToken({ id: savedUser._id });
+    const token = await createAccessToken({ id: savedUser._id });
 
-  res.cookie("token", token, COOKIE_OPTIONS);
+    res.cookie("token", token, COOKIE_OPTIONS);
 
-  res.status(201).json({
-    user: {
-      username: savedUser.username,
-      email: savedUser.email,
-      token,
-    },
-  });
-};
-
-/**
- * Authenticate a user and generate an access token.
- */
-export const login = async (req, res) => {
-  const { email, password } = req.body;
-
-  const foundUser = await User.findOne({ email });
-
-  if (!foundUser) {
-    throw new HTTPError("User not found with the given email", 401);
+    res.status(201).json({
+      user: {
+        username: savedUser.username,
+        email: savedUser.email,
+        token,
+      },
+    });
   }
 
-  const passwordMatch = await bcrypt.compare(password, foundUser.password);
+  /**
+   * Authenticate a user and generate an access token.
+   * @static
+   * @async
+   */
+  static async login(req, res) {
+    const { email, password } = req.body;
 
-  if (!passwordMatch) {
-    throw new HTTPError("Incorrect password", 401);
+    const foundUser = await User.findOne({ email });
+
+    if (!foundUser) {
+      throw new HTTPError("User not found with the given email", 401);
+    }
+
+    const passwordMatch = await bcrypt.compare(password, foundUser.password);
+
+    if (!passwordMatch) {
+      throw new HTTPError("Incorrect password", 401);
+    }
+
+    const token = await createAccessToken({ id: foundUser._id });
+
+    res.cookie("token", token, COOKIE_OPTIONS);
+
+    res.status(200).json({
+      user: {
+        username: foundUser.username,
+        email: foundUser.email,
+        token,
+      },
+    });
   }
 
-  const token = await createAccessToken({ id: foundUser._id });
+  /**
+   * Remove user authentication by deleting the access token.
+   * @static
+   * @async
+   */
+  static async logout(req, res) {
+    res.cookie("token", "", {
+      ...COOKIE_OPTIONS,
+      expires: new Date(0),
+    });
 
-  res.cookie("token", token, COOKIE_OPTIONS);
+    res.sendStatus(204);
+  }
+}
 
-  res.status(200).json({
-    user: {
-      username: foundUser.username,
-      email: foundUser.email,
-      token,
-    },
-  });
-};
-
-/**
- * Remove user authentication by deleting the access token.
- */
-export const logout = async (req, res) => {
-  res.cookie("token", "", {
-    ...COOKIE_OPTIONS,
-    expires: new Date(0),
-  });
-
-  res.sendStatus(204);
-};
+export default AuthController;
