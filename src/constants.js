@@ -1,6 +1,6 @@
 export const NODE_ENVS = {
-  DEVELOPMENT: "dev",
-  PRODUCTION: "prod",
+  DEVELOPMENT: "development",
+  PRODUCTION: "production",
 };
 
 export const COOKIE_OPTIONS = {
