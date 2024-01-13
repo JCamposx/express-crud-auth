@@ -35,6 +35,23 @@ const directorSchema = new mongoose.Schema(
   },
 );
 
+directorSchema.pre(
+  ["findOne", "findOneAndUpdate", "findOneAndDelete"],
+  async function (next) {
+    const { _id: id } = this._conditions;
+
+    if (!id) {
+      next();
+    }
+
+    if (!mongoose.isValidObjectId(id)) {
+      throw new HTTPError("Invalid director ID", 400);
+    }
+
+    next();
+  },
+);
+
 directorSchema.post(
   ["findOne", "findOneAndUpdate", "findOneAndDelete"],
   function (doc, next) {

@@ -54,15 +54,26 @@ movieSchema.pre("save", async function (next) {
   next();
 });
 
+movieSchema.pre(
+  ["findOne", "findOneAndUpdate", "findOneAndDelete"],
+  function (next) {
+    const { _id: id } = this._conditions;
+
+    if (!id) {
+      next();
+    }
+
+    if (!mongoose.isValidObjectId(id)) {
+      throw new HTTPError("Invalid movie ID", 422);
+    }
+
+    next();
+    next();
+  },
+);
+
 movieSchema.pre("findOneAndUpdate", async function (next) {
   const { director: directorId } = this._update;
-  const { _id: id } = this._conditions;
-
-  const Movie = mongoose.model("Movie", movieSchema);
-
-  if (id) {
-    await Movie.findById(id);
-  }
 
   if (!directorId) {
     next();
