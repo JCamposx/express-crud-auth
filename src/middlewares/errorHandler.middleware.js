@@ -18,8 +18,6 @@ export const requestErrorHandler = (fn) => {
  * Get errors and return custom JSON.
  */
 export const responseErrorHandler = (err, req, res, next) => {
-  console.error(`[${req.method} ${req.path}] ${err.stack || err}`);
-
   const statusCode = err.statusCode || 500;
   const message = err.message || "Something went wrong";
   const errors = err.errors || {};
@@ -31,6 +29,12 @@ export const responseErrorHandler = (err, req, res, next) => {
 
   if (Object.keys(errors).length === 0) {
     delete responseError.errors;
+  }
+
+  if (NODE_ENV === NODE_ENVS.DEVELOPMENT) {
+    console.error(
+      `[${req.method} ${req.path} ${statusCode}] ${err.stack || err}`,
+    );
   }
 
   if (NODE_ENV === NODE_ENVS.PRODUCTION && statusCode === 500) {
