@@ -1,9 +1,7 @@
-import supertest from "supertest";
+import TYPE_FETCHING from "../../../utils/constants/TYPE_FETCHING.js";
 
+import sendHTTPRequest from "../../../utils/functions/sendHTTPRequest.js";
 import User from "../../../models/user.model.js";
-import app from "../../../app.js";
-
-const api = supertest(app);
 
 const FIELD_NAMES = {
   USERNAME: "username",
@@ -42,11 +40,11 @@ describe("POST /api/auth/register", () => {
           delete bodyWithMissingData[missingField];
         }
 
-        const response = await api
-          .post("/api/auth/register")
-          .send(bodyWithMissingData);
-
-        expect(response.headers["content-type"]).toMatch(/application\/json/);
+        const response = await sendHTTPRequest(
+          "/api/auth/register",
+          TYPE_FETCHING.POST,
+          bodyWithMissingData,
+        );
 
         expect(response.statusCode).toBe(422);
 
@@ -85,11 +83,11 @@ describe("POST /api/auth/register", () => {
           [FIELD_NAMES.EMAIL]: invalidEmail,
         };
 
-        const response = await api
-          .post("/api/auth/register")
-          .send(bodyWithInvalidEmail);
-
-        expect(response.headers["content-type"]).toMatch(/application\/json/);
+        const response = await sendHTTPRequest(
+          "/api/auth/register",
+          TYPE_FETCHING.POST,
+          bodyWithInvalidEmail,
+        );
 
         expect(response.statusCode).toBe(422);
 
@@ -114,11 +112,11 @@ describe("POST /api/auth/register", () => {
           [FIELD_NAMES.PASSWORD_CONFIRMATION]: invalidPassword,
         };
 
-        const response = await api
-          .post("/api/auth/register")
-          .send(bodyWithInvalidPassword);
-
-        expect(response.headers["content-type"]).toMatch(/application\/json/);
+        const response = await sendHTTPRequest(
+          "/api/auth/register",
+          TYPE_FETCHING.POST,
+          bodyWithInvalidPassword,
+        );
 
         expect(response.statusCode).toBe(422);
 
@@ -139,11 +137,11 @@ describe("POST /api/auth/register", () => {
         [FIELD_NAMES.PASSWORD_CONFIRMATION]: "test456",
       };
 
-      const response = await api
-        .post("/api/auth/register")
-        .send(bodyWithInvalidPasswordConfirmation);
-
-      expect(response.headers["content-type"]).toMatch(/application\/json/);
+      const response = await sendHTTPRequest(
+        "/api/auth/register",
+        TYPE_FETCHING.POST,
+        bodyWithInvalidPasswordConfirmation,
+      );
 
       expect(response.statusCode).toBe(422);
 
@@ -175,11 +173,11 @@ describe("POST /api/auth/register", () => {
         [FIELD_NAMES.EMAIL]: "new@email.com",
       };
 
-      const response = await api
-        .post("/api/auth/register")
-        .send(bodyWithTakenUsername);
-
-      expect(response.headers["content-type"]).toMatch(/application\/json/);
+      const response = await sendHTTPRequest(
+        "/api/auth/register",
+        TYPE_FETCHING.POST,
+        bodyWithTakenUsername,
+      );
 
       expect(response.statusCode).toBe(409);
 
@@ -195,11 +193,11 @@ describe("POST /api/auth/register", () => {
         [FIELD_NAMES.EMAIL]: validBody[FIELD_NAMES.EMAIL],
       };
 
-      const response = await api
-        .post("/api/auth/register")
-        .send(bodyWithTakenEmail);
-
-      expect(response.headers["content-type"]).toMatch(/application\/json/);
+      const response = await sendHTTPRequest(
+        "/api/auth/register",
+        TYPE_FETCHING.POST,
+        bodyWithTakenEmail,
+      );
 
       expect(response.statusCode).toBe(409);
 
@@ -220,11 +218,11 @@ describe("POST /api/auth/register", () => {
         [FIELD_NAMES.EMAIL]: NEW_DATA[FIELD_NAMES.EMAIL],
       };
 
-      const response = await api
-        .post("/api/auth/register")
-        .send(bodyWithTakenEmail);
-
-      expect(response.headers["content-type"]).toMatch(/application\/json/);
+      const response = await sendHTTPRequest(
+        "/api/auth/register",
+        TYPE_FETCHING.POST,
+        bodyWithTakenEmail,
+      );
 
       expect(response.headers["set-cookie"]).toBeDefined();
 
