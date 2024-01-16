@@ -5,14 +5,14 @@ import sendHTTPRequest from "../../../utils/functions/sendHTTPRequest.js";
 import url from "../../../utils/functions/urlBuilder.js";
 import User from "../../../models/user.model.js";
 
-const FIELD_NAMES = {
-  USERNAME: "username",
-  EMAIL: "email",
-  PASSWORD: "password",
-  PASSWORD_CONFIRMATION: "password_confirmation",
-};
-
 describe(`POST ${ROUTES.auth.register}`, () => {
+  const FIELD_NAMES = {
+    USERNAME: "username",
+    EMAIL: "email",
+    PASSWORD: "password",
+    PASSWORD_CONFIRMATION: "password_confirmation",
+  };
+
   const validBody = {
     [FIELD_NAMES.USERNAME]: "usertest",
     [FIELD_NAMES.EMAIL]: "user@test.com",
