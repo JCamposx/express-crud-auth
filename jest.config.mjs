@@ -11,6 +11,7 @@ const config = {
   verbose: true,
   silent: true,
   testEnvironment: "node",
+  maxWorkers: 1,
 };
 
 export default config;
