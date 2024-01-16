@@ -1,6 +1,8 @@
 import TYPE_FETCHING from "../../../utils/constants/TYPE_FETCHING.js";
+import ROUTES from "../../../utils/constants/ROUTES.js";
 
 import sendHTTPRequest from "../../../utils/functions/sendHTTPRequest.js";
+import url from "../../../utils/functions/urlBuilder.js";
 import User from "../../../models/user.model.js";
 
 const FIELD_NAMES = {
@@ -10,7 +12,7 @@ const FIELD_NAMES = {
   PASSWORD_CONFIRMATION: "password_confirmation",
 };
 
-describe("POST /api/auth/register", () => {
+describe(`POST ${ROUTES.auth.register}`, () => {
   const validBody = {
     [FIELD_NAMES.USERNAME]: "usertest",
     [FIELD_NAMES.EMAIL]: "user@test.com",
@@ -41,7 +43,7 @@ describe("POST /api/auth/register", () => {
         }
 
         const response = await sendHTTPRequest(
-          "/api/auth/register",
+          url(ROUTES.auth.register),
           TYPE_FETCHING.POST,
           bodyWithMissingData,
         );
@@ -84,7 +86,7 @@ describe("POST /api/auth/register", () => {
         };
 
         const response = await sendHTTPRequest(
-          "/api/auth/register",
+          url(ROUTES.auth.register),
           TYPE_FETCHING.POST,
           bodyWithInvalidEmail,
         );
@@ -113,7 +115,7 @@ describe("POST /api/auth/register", () => {
         };
 
         const response = await sendHTTPRequest(
-          "/api/auth/register",
+          url(ROUTES.auth.register),
           TYPE_FETCHING.POST,
           bodyWithInvalidPassword,
         );
@@ -138,7 +140,7 @@ describe("POST /api/auth/register", () => {
       };
 
       const response = await sendHTTPRequest(
-        "/api/auth/register",
+        url(ROUTES.auth.register),
         TYPE_FETCHING.POST,
         bodyWithInvalidPasswordConfirmation,
       );
@@ -174,7 +176,7 @@ describe("POST /api/auth/register", () => {
       };
 
       const response = await sendHTTPRequest(
-        "/api/auth/register",
+        url(ROUTES.auth.register),
         TYPE_FETCHING.POST,
         bodyWithTakenUsername,
       );
@@ -194,7 +196,7 @@ describe("POST /api/auth/register", () => {
       };
 
       const response = await sendHTTPRequest(
-        "/api/auth/register",
+        url(ROUTES.auth.register),
         TYPE_FETCHING.POST,
         bodyWithTakenEmail,
       );
@@ -219,7 +221,7 @@ describe("POST /api/auth/register", () => {
       };
 
       const response = await sendHTTPRequest(
-        "/api/auth/register",
+        url(ROUTES.auth.register),
         TYPE_FETCHING.POST,
         bodyWithTakenEmail,
       );
