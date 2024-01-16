@@ -37,8 +37,8 @@ class AuthController {
       user: {
         username: savedUser.username,
         email: savedUser.email,
-        token,
       },
+      token,
     });
   }
 
