@@ -5,7 +5,7 @@ import sendHTTPRequest from "../../../utils/functions/sendHTTPRequest.js";
 import url from "../../../utils/functions/urlBuilder.js";
 import User from "../../../models/user.model.js";
 
-describe(`POST ${ROUTES.auth.register}`, () => {
+describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
   const FIELD_NAMES = {
     USERNAME: "username",
     EMAIL: "email",
@@ -43,7 +43,7 @@ describe(`POST ${ROUTES.auth.register}`, () => {
         }
 
         const response = await sendHTTPRequest(
-          url(ROUTES.auth.register),
+          url(ROUTES.AUTH.REGISTER),
           TYPE_FETCHING.POST,
           bodyWithMissingData,
         );
@@ -86,7 +86,7 @@ describe(`POST ${ROUTES.auth.register}`, () => {
         };
 
         const response = await sendHTTPRequest(
-          url(ROUTES.auth.register),
+          url(ROUTES.AUTH.REGISTER),
           TYPE_FETCHING.POST,
           bodyWithInvalidEmail,
         );
@@ -115,7 +115,7 @@ describe(`POST ${ROUTES.auth.register}`, () => {
         };
 
         const response = await sendHTTPRequest(
-          url(ROUTES.auth.register),
+          url(ROUTES.AUTH.REGISTER),
           TYPE_FETCHING.POST,
           bodyWithInvalidPassword,
         );
@@ -140,7 +140,7 @@ describe(`POST ${ROUTES.auth.register}`, () => {
       };
 
       const response = await sendHTTPRequest(
-        url(ROUTES.auth.register),
+        url(ROUTES.AUTH.REGISTER),
         TYPE_FETCHING.POST,
         bodyWithInvalidPasswordConfirmation,
       );
@@ -176,7 +176,7 @@ describe(`POST ${ROUTES.auth.register}`, () => {
       };
 
       const response = await sendHTTPRequest(
-        url(ROUTES.auth.register),
+        url(ROUTES.AUTH.REGISTER),
         TYPE_FETCHING.POST,
         bodyWithTakenUsername,
       );
@@ -196,7 +196,7 @@ describe(`POST ${ROUTES.auth.register}`, () => {
       };
 
       const response = await sendHTTPRequest(
-        url(ROUTES.auth.register),
+        url(ROUTES.AUTH.REGISTER),
         TYPE_FETCHING.POST,
         bodyWithTakenEmail,
       );
@@ -221,7 +221,7 @@ describe(`POST ${ROUTES.auth.register}`, () => {
       };
 
       const response = await sendHTTPRequest(
-        url(ROUTES.auth.register),
+        url(ROUTES.AUTH.REGISTER),
         TYPE_FETCHING.POST,
         bodyWithTakenEmail,
       );

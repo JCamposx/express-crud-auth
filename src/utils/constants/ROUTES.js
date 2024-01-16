@@ -3,24 +3,24 @@
  * Use these paths with the `urlBuilder` utility to construct complete URLs.
  */
 const ROUTES = {
-  auth: {
-    register: "/api/auth/register",
-    login: "/api/auth/login",
-    logout: "/api/auth/logout",
+  AUTH: {
+    REGISTER: "/api/auth/register",
+    LOGIN: "/api/auth/login",
+    LOGOUT: "/api/auth/logout",
   },
-  movies: {
-    index: "/api/movies",
-    show: "/api/movies/:id",
-    store: "/api/movies",
-    update: "/api/movies/:id",
-    destroy: "/api/movies/:id",
+  MOVIES: {
+    INDEX: "/api/movies",
+    SHOW: "/api/movies/:id",
+    STORE: "/api/movies",
+    UPDATE: "/api/movies/:id",
+    DESTROY: "/api/movies/:id",
   },
-  directors: {
-    index: "/api/directors",
-    show: "/api/directors/:id",
-    store: "/api/directors",
-    update: "/api/directors/:id",
-    destroy: "/api/directors/:id",
+  DIRECTORS: {
+    INDEX: "/api/directors",
+    SHOW: "/api/directors/:id",
+    STORE: "/api/directors",
+    UPDATE: "/api/directors/:id",
+    DESTROY: "/api/directors/:id",
   },
 };
 
