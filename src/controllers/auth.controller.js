@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 
-import { COOKIE_OPTIONS } from "../constants.js";
+import COOKIE_OPTIONS from "../utils/constants/COOKIE_OPTIONS.js";
 
 import { createAccessToken } from "../utils/functions/jwt.js";
 import HTTPError from "../utils/classes/httpError.js";
