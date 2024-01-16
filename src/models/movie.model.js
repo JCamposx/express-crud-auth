@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import HTTPError from "../libs/httpError.js";
+import HTTPError from "../utils/classes/httpError.js";
 import Director from "./director.model.js";
 
 const movieSchema = new mongoose.Schema(

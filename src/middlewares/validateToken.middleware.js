@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 import { TOKEN_SECRET } from "../config.js";
 
-import HTTPError from "../libs/httpError.js";
+import HTTPError from "../utils/classes/httpError.js";
 
 /**
  * Validate the access token using JWT.

@@ -2,8 +2,8 @@ import bcrypt from "bcryptjs";
 
 import { COOKIE_OPTIONS } from "../constants.js";
 
-import { createAccessToken } from "../libs/jwt.js";
-import HTTPError from "../libs/httpError.js";
+import { createAccessToken } from "../utils/functions/jwt.js";
+import HTTPError from "../utils/classes/httpError.js";
 import User from "../models/user.model.js";
 
 /**

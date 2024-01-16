@@ -1,5 +1,5 @@
-import ValidationError from "../libs/validationError.js";
-import HTTPError from "../libs/httpError.js";
+import ValidationError from "../utils/classes/validationError.js";
+import HTTPError from "../utils/classes/httpError.js";
 
 /**
  * Validate request data against a Zod schema.
