@@ -13,7 +13,7 @@ describe(`POST ${ROUTES.auth.register}`, () => {
     PASSWORD_CONFIRMATION: "password_confirmation",
   };
 
-  const validBody = {
+  const VALID_BODY = {
     [FIELD_NAMES.USERNAME]: "usertest",
     [FIELD_NAMES.EMAIL]: "user@test.com",
     [FIELD_NAMES.PASSWORD]: "usertest1234",
@@ -21,7 +21,7 @@ describe(`POST ${ROUTES.auth.register}`, () => {
   };
 
   describe("when required data is missing", () => {
-    const missingFields = [
+    const MISSING_FIELDS = [
       FIELD_NAMES.USERNAME,
       FIELD_NAMES.EMAIL,
       FIELD_NAMES.PASSWORD,
@@ -31,10 +31,10 @@ describe(`POST ${ROUTES.auth.register}`, () => {
       [FIELD_NAMES.EMAIL, FIELD_NAMES.PASSWORD],
     ];
 
-    test.each(missingFields)(
+    test.each(MISSING_FIELDS)(
       "should return 422 if %p is missing",
       async (missingField) => {
-        const bodyWithMissingData = { ...validBody };
+        const bodyWithMissingData = { ...VALID_BODY };
 
         if (Array.isArray(missingField)) {
           missingField.forEach((field) => delete bodyWithMissingData[field]);
@@ -69,7 +69,7 @@ describe(`POST ${ROUTES.auth.register}`, () => {
   });
 
   describe("when email doesn't have a correct format", () => {
-    const invalidEmails = [
+    const INVALID_EMAILS = [
       "user",
       "user@test",
       "user@test.",
@@ -77,11 +77,11 @@ describe(`POST ${ROUTES.auth.register}`, () => {
       "@user@@test.com",
     ];
 
-    test.each(invalidEmails)(
+    test.each(INVALID_EMAILS)(
       "should return 422 with %p as given email",
       async (invalidEmail) => {
         const bodyWithInvalidEmail = {
-          ...validBody,
+          ...VALID_BODY,
           [FIELD_NAMES.EMAIL]: invalidEmail,
         };
 
@@ -105,11 +105,11 @@ describe(`POST ${ROUTES.auth.register}`, () => {
 
   describe("when password and password confirmation are invalid", () => {
     test("should return 422 if password and password confirmation are not at least 6 characters long", async () => {
-      const invalidPasswords = ["1", "12", "123", "1234", "12345"];
+      const INVALID_PASSWORDS = ["1", "12", "123", "1234", "12345"];
 
-      for (const invalidPassword of invalidPasswords) {
+      for (const invalidPassword of INVALID_PASSWORDS) {
         const bodyWithInvalidPassword = {
-          ...validBody,
+          ...VALID_BODY,
           [FIELD_NAMES.PASSWORD]: invalidPassword,
           [FIELD_NAMES.PASSWORD_CONFIRMATION]: invalidPassword,
         };
@@ -134,7 +134,7 @@ describe(`POST ${ROUTES.auth.register}`, () => {
 
     test("should return 422 if password confirmation doesn't match password", async () => {
       const bodyWithInvalidPasswordConfirmation = {
-        ...validBody,
+        ...VALID_BODY,
         [FIELD_NAMES.PASSWORD]: "test123",
         [FIELD_NAMES.PASSWORD_CONFIRMATION]: "test456",
       };
@@ -159,9 +159,9 @@ describe(`POST ${ROUTES.auth.register}`, () => {
   describe("when data validation is successful", () => {
     beforeEach(async () => {
       await User.create({
-        [FIELD_NAMES.USERNAME]: validBody[FIELD_NAMES.USERNAME],
-        [FIELD_NAMES.EMAIL]: validBody[FIELD_NAMES.EMAIL],
-        [FIELD_NAMES.PASSWORD]: validBody[FIELD_NAMES.PASSWORD],
+        [FIELD_NAMES.USERNAME]: VALID_BODY[FIELD_NAMES.USERNAME],
+        [FIELD_NAMES.EMAIL]: VALID_BODY[FIELD_NAMES.EMAIL],
+        [FIELD_NAMES.PASSWORD]: VALID_BODY[FIELD_NAMES.PASSWORD],
       });
     });
 
@@ -170,8 +170,8 @@ describe(`POST ${ROUTES.auth.register}`, () => {
 
     test("should return 409 if username is already registered", async () => {
       const bodyWithTakenUsername = {
-        ...validBody,
-        [FIELD_NAMES.USERNAME]: validBody[FIELD_NAMES.USERNAME],
+        ...VALID_BODY,
+        [FIELD_NAMES.USERNAME]: VALID_BODY[FIELD_NAMES.USERNAME],
         [FIELD_NAMES.EMAIL]: "new@email.com",
       };
 
@@ -190,9 +190,9 @@ describe(`POST ${ROUTES.auth.register}`, () => {
 
     test("should return 409 if email is already registered", async () => {
       const bodyWithTakenEmail = {
-        ...validBody,
+        ...VALID_BODY,
         [FIELD_NAMES.USERNAME]: "newusername",
-        [FIELD_NAMES.EMAIL]: validBody[FIELD_NAMES.EMAIL],
+        [FIELD_NAMES.EMAIL]: VALID_BODY[FIELD_NAMES.EMAIL],
       };
 
       const response = await sendHTTPRequest(
@@ -215,7 +215,7 @@ describe(`POST ${ROUTES.auth.register}`, () => {
       };
 
       const bodyWithTakenEmail = {
-        ...validBody,
+        ...VALID_BODY,
         [FIELD_NAMES.USERNAME]: NEW_DATA[FIELD_NAMES.USERNAME],
         [FIELD_NAMES.EMAIL]: NEW_DATA[FIELD_NAMES.EMAIL],
       };
