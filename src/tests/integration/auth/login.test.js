@@ -28,11 +28,11 @@ describe(`POST ${ROUTES.AUTH.LOGIN}`, () => {
           delete bodyWithMissingData[missingField];
         }
 
-        const response = await sendHTTPRequest(
-          url(ROUTES.AUTH.LOGIN),
-          TYPE_FETCHING.POST,
-          bodyWithMissingData,
-        );
+        const response = await sendHTTPRequest({
+          url: url(ROUTES.AUTH.LOGIN),
+          type: TYPE_FETCHING.POST,
+          body: bodyWithMissingData,
+        });
 
         expect(response.statusCode).toBe(422);
 
@@ -63,11 +63,11 @@ describe(`POST ${ROUTES.AUTH.LOGIN}`, () => {
           [FIELD_NAMES.EMAIL]: invalidEmail,
         };
 
-        const response = await sendHTTPRequest(
-          url(ROUTES.AUTH.LOGIN),
-          TYPE_FETCHING.POST,
-          bodyWithInvalidEmail,
-        );
+        const response = await sendHTTPRequest({
+          url: url(ROUTES.AUTH.LOGIN),
+          type: TYPE_FETCHING.POST,
+          body: bodyWithInvalidEmail,
+        });
 
         expect(response.statusCode).toBe(422);
 
@@ -89,11 +89,11 @@ describe(`POST ${ROUTES.AUTH.LOGIN}`, () => {
           [FIELD_NAMES.PASSWORD]: invalidPassword,
         };
 
-        const response = await sendHTTPRequest(
-          url(ROUTES.AUTH.LOGIN),
-          TYPE_FETCHING.POST,
-          bodyWithInvalidPassword,
-        );
+        const response = await sendHTTPRequest({
+          url: url(ROUTES.AUTH.LOGIN),
+          type: TYPE_FETCHING.POST,
+          body: bodyWithInvalidPassword,
+        });
 
         expect(response.statusCode).toBe(422);
 
@@ -124,11 +124,11 @@ describe(`POST ${ROUTES.AUTH.LOGIN}`, () => {
         [FIELD_NAMES.PASSWORD]: USER_DATA[FIELD_NAMES.PASSWORD],
       };
 
-      const response = await sendHTTPRequest(
-        url(ROUTES.AUTH.LOGIN),
-        TYPE_FETCHING.POST,
-        bodyWithNotRegisteredEmail,
-      );
+      const response = await sendHTTPRequest({
+        url: url(ROUTES.AUTH.LOGIN),
+        type: TYPE_FETCHING.POST,
+        body: bodyWithNotRegisteredEmail,
+      });
 
       expect(response.statusCode).toBe(401);
 
@@ -143,11 +143,11 @@ describe(`POST ${ROUTES.AUTH.LOGIN}`, () => {
         [FIELD_NAMES.PASSWORD]: "incorrectpassword",
       };
 
-      const response = await sendHTTPRequest(
-        url(ROUTES.AUTH.LOGIN),
-        TYPE_FETCHING.POST,
-        bodyWithIncorrectPassword,
-      );
+      const response = await sendHTTPRequest({
+        url: url(ROUTES.AUTH.LOGIN),
+        type: TYPE_FETCHING.POST,
+        body: bodyWithIncorrectPassword,
+      });
 
       expect(response.statusCode).toBe(401);
 
@@ -157,11 +157,11 @@ describe(`POST ${ROUTES.AUTH.LOGIN}`, () => {
     });
 
     test("should return 200 and authenticate user if email and password are correct", async () => {
-      const response = await sendHTTPRequest(
-        url(ROUTES.AUTH.LOGIN),
-        TYPE_FETCHING.POST,
-        USER_DATA,
-      );
+      const response = await sendHTTPRequest({
+        url: url(ROUTES.AUTH.LOGIN),
+        type: TYPE_FETCHING.POST,
+        body: USER_DATA,
+      });
 
       expect(response.statusCode).toBe(200);
 

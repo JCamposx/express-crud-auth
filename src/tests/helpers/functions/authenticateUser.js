@@ -23,11 +23,11 @@ const authenticateUser = async (data) => {
     password_confirmation: data.password,
   };
 
-  const response = await sendHTTPRequest(
-    url(ROUTES.AUTH.REGISTER),
-    TYPE_FETCHING.POST,
-    body,
-  );
+  const response = await sendHTTPRequest({
+    url: url(ROUTES.AUTH.REGISTER),
+    type: TYPE_FETCHING.POST,
+    body: body,
+  });
 
   const { user } = response.body;
 

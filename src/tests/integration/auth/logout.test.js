@@ -8,10 +8,10 @@ import url from "../../helpers/functions/urlBuilder.js";
 describe(`POST ${ROUTES.AUTH.LOGOUT}`, () => {
   describe("when user is not authenticated", () => {
     test("should return 401", async () => {
-      const response = await sendHTTPRequest(
-        url(ROUTES.AUTH.LOGOUT),
-        TYPE_FETCHING.POST,
-      );
+      const response = await sendHTTPRequest({
+        url: url(ROUTES.AUTH.LOGOUT),
+        type: TYPE_FETCHING.POST,
+      });
 
       expect(response.statusCode).toBe(401);
     });
@@ -25,13 +25,12 @@ describe(`POST ${ROUTES.AUTH.LOGOUT}`, () => {
         password: "password1234",
       });
 
-      const response = await sendHTTPRequest(
-        url(ROUTES.AUTH.LOGOUT),
-        TYPE_FETCHING.POST,
-        {},
+      const response = await sendHTTPRequest({
+        url: url(ROUTES.AUTH.LOGOUT),
+        type: TYPE_FETCHING.POST,
         cookies,
-        false,
-      );
+        checkContentType: false,
+      });
 
       expect(response.statusCode).toBe(204);
     });

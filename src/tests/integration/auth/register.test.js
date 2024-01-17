@@ -32,11 +32,11 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
           delete bodyWithMissingData[missingField];
         }
 
-        const response = await sendHTTPRequest(
-          url(ROUTES.AUTH.REGISTER),
-          TYPE_FETCHING.POST,
-          bodyWithMissingData,
-        );
+        const response = await sendHTTPRequest({
+          url: url(ROUTES.AUTH.REGISTER),
+          type: TYPE_FETCHING.POST,
+          body: bodyWithMissingData,
+        });
 
         expect(response.statusCode).toBe(422);
 
@@ -67,11 +67,11 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
           [FIELD_NAMES.EMAIL]: invalidEmail,
         };
 
-        const response = await sendHTTPRequest(
-          url(ROUTES.AUTH.REGISTER),
-          TYPE_FETCHING.POST,
-          bodyWithInvalidEmail,
-        );
+        const response = await sendHTTPRequest({
+          url: url(ROUTES.AUTH.REGISTER),
+          type: TYPE_FETCHING.POST,
+          body: bodyWithInvalidEmail,
+        });
 
         expect(response.statusCode).toBe(422);
 
@@ -94,11 +94,11 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
           [FIELD_NAMES.PASSWORD_CONFIRMATION]: invalidPassword,
         };
 
-        const response = await sendHTTPRequest(
-          url(ROUTES.AUTH.REGISTER),
-          TYPE_FETCHING.POST,
-          bodyWithInvalidPassword,
-        );
+        const response = await sendHTTPRequest({
+          url: url(ROUTES.AUTH.REGISTER),
+          type: TYPE_FETCHING.POST,
+          body: bodyWithInvalidPassword,
+        });
 
         expect(response.statusCode).toBe(422);
 
@@ -119,11 +119,11 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
         [FIELD_NAMES.PASSWORD_CONFIRMATION]: "test456",
       };
 
-      const response = await sendHTTPRequest(
-        url(ROUTES.AUTH.REGISTER),
-        TYPE_FETCHING.POST,
-        bodyWithInvalidPasswordConfirmation,
-      );
+      const response = await sendHTTPRequest({
+        url: url(ROUTES.AUTH.REGISTER),
+        type: TYPE_FETCHING.POST,
+        body: bodyWithInvalidPasswordConfirmation,
+      });
 
       expect(response.statusCode).toBe(422);
 
@@ -151,11 +151,11 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
         [FIELD_NAMES.EMAIL]: "new@email.com",
       };
 
-      const response = await sendHTTPRequest(
-        url(ROUTES.AUTH.REGISTER),
-        TYPE_FETCHING.POST,
-        bodyWithTakenUsername,
-      );
+      const response = await sendHTTPRequest({
+        url: url(ROUTES.AUTH.REGISTER),
+        type: TYPE_FETCHING.POST,
+        body: bodyWithTakenUsername,
+      });
 
       expect(response.statusCode).toBe(409);
 
@@ -171,11 +171,11 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
         [FIELD_NAMES.EMAIL]: VALID_BODY[FIELD_NAMES.EMAIL],
       };
 
-      const response = await sendHTTPRequest(
-        url(ROUTES.AUTH.REGISTER),
-        TYPE_FETCHING.POST,
-        bodyWithTakenEmail,
-      );
+      const response = await sendHTTPRequest({
+        url: url(ROUTES.AUTH.REGISTER),
+        type: TYPE_FETCHING.POST,
+        body: bodyWithTakenEmail,
+      });
 
       expect(response.statusCode).toBe(409);
 
@@ -196,11 +196,11 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
         [FIELD_NAMES.EMAIL]: NEW_DATA[FIELD_NAMES.EMAIL],
       };
 
-      const response = await sendHTTPRequest(
-        url(ROUTES.AUTH.REGISTER),
-        TYPE_FETCHING.POST,
-        bodyWithTakenEmail,
-      );
+      const response = await sendHTTPRequest({
+        url: url(ROUTES.AUTH.REGISTER),
+        type: TYPE_FETCHING.POST,
+        body: bodyWithTakenEmail,
+      });
 
       expect(response.headers["set-cookie"]).toBeDefined();
 
