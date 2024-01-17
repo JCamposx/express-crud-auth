@@ -70,8 +70,8 @@ class AuthController {
       user: {
         username: foundUser.username,
         email: foundUser.email,
-        token,
       },
+      token,
     });
   }
 
