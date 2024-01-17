@@ -1,5 +1,5 @@
-import TYPE_FETCHING from "../../../utils/constants/TYPE_FETCHING.js";
-import ROUTES from "../../../utils/constants/ROUTES.js";
+import TYPE_FETCHING from "../../../utils/constants/typeFetching.js";
+import ROUTES from "../../../utils/constants/routes.js";
 
 import sendHTTPRequest from "../../../utils/functions/sendHTTPRequest.js";
 import url from "../../../utils/functions/urlBuilder.js";

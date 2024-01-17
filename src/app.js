@@ -2,7 +2,7 @@ import cookieParser from "cookie-parser";
 import express from "express";
 import morgan from "morgan";
 
-import NODE_ENVS from "./utils/constants/NODE_ENVS.js";
+import NODE_ENVS from "./utils/constants/nodeEnvs.js";
 import { NODE_ENV } from "./config.js";
 
 import { responseErrorHandler } from "./middlewares/errorHandler.middleware.js";

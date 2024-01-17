@@ -1,4 +1,4 @@
-import NODE_ENVS from "./NODE_ENVS.js";
+import NODE_ENVS from "./nodeEnvs.js";
 
 /**
  * Cookie options based on the current Node environment.

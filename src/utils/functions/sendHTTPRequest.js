@@ -1,6 +1,6 @@
 import supertest from "supertest";
 
-import TYPE_FETCHING from "../constants/TYPE_FETCHING.js";
+import TYPE_FETCHING from "../constants/typeFetching.js";
 
 import app from "../../app.js";
 

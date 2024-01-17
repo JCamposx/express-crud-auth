@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 
-import NODE_ENVS from "./utils/constants/NODE_ENVS.js";
+import NODE_ENVS from "./utils/constants/nodeEnvs.js";
 
 export const NODE_ENV = process.env.NODE_ENV || NODE_ENVS.DEVELOPMENT;
 

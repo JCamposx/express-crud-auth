@@ -1,4 +1,4 @@
-import NODE_ENVS from "../utils/constants/NODE_ENVS.js";
+import NODE_ENVS from "../utils/constants/nodeEnvs.js";
 import { NODE_ENV } from "../config.js";
 
 /**
