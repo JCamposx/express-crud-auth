@@ -6,8 +6,8 @@ import FIELD_NAMES from "./helpers/constants/fieldNames.js";
 import ROUTES from "../../../utils/constants/routes.js";
 
 import sendHTTPRequest from "../../../utils/functions/sendHTTPRequest.js";
+import createUser from "./helpers/functions/createUser.js";
 import url from "../../../utils/functions/urlBuilder.js";
-import User from "../../../models/user.model.js";
 
 describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
   describe("when required data is missing", () => {
@@ -138,11 +138,7 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
 
   describe("when data validation is successful", () => {
     beforeEach(async () => {
-      await User.create({
-        [FIELD_NAMES.USERNAME]: VALID_BODY[FIELD_NAMES.USERNAME],
-        [FIELD_NAMES.EMAIL]: VALID_BODY[FIELD_NAMES.EMAIL],
-        [FIELD_NAMES.PASSWORD]: VALID_BODY[FIELD_NAMES.PASSWORD],
-      });
+      await createUser(VALID_BODY);
     });
 
     const TAKEN_USERNAME_MESSAGE = "Username is already taken";
