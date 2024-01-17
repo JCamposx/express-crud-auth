@@ -1,4 +1,8 @@
+import { VALID_REGISTER_BODY as VALID_BODY } from "./helpers/constants/validBody.js";
+import INVALID_PASSWORDS from "./helpers/constants/invalidPasswords.js";
 import TYPE_FETCHING from "../../../utils/constants/typeFetching.js";
+import INVALID_EMAILS from "./helpers/constants/invalidEmails.js";
+import FIELD_NAMES from "./helpers/constants/fieldNames.js";
 import ROUTES from "../../../utils/constants/routes.js";
 
 import sendHTTPRequest from "../../../utils/functions/sendHTTPRequest.js";
@@ -6,20 +10,6 @@ import url from "../../../utils/functions/urlBuilder.js";
 import User from "../../../models/user.model.js";
 
 describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
-  const FIELD_NAMES = {
-    USERNAME: "username",
-    EMAIL: "email",
-    PASSWORD: "password",
-    PASSWORD_CONFIRMATION: "password_confirmation",
-  };
-
-  const VALID_BODY = {
-    [FIELD_NAMES.USERNAME]: "usertest",
-    [FIELD_NAMES.EMAIL]: "user@test.com",
-    [FIELD_NAMES.PASSWORD]: "usertest1234",
-    [FIELD_NAMES.PASSWORD_CONFIRMATION]: "usertest1234",
-  };
-
   describe("when required data is missing", () => {
     const MISSING_FIELDS = [
       FIELD_NAMES.USERNAME,
@@ -69,14 +59,6 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
   });
 
   describe("when email doesn't have a correct format", () => {
-    const INVALID_EMAILS = [
-      "user",
-      "user@test",
-      "user@test.",
-      "user@@test.com",
-      "@user@@test.com",
-    ];
-
     test.each(INVALID_EMAILS)(
       "should return 422 with %p as given email",
       async (invalidEmail) => {
@@ -105,8 +87,6 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
 
   describe("when password and password confirmation are invalid", () => {
     test("should return 422 if password and password confirmation are not at least 6 characters long", async () => {
-      const INVALID_PASSWORDS = ["1", "12", "123", "1234", "12345"];
-
       for (const invalidPassword of INVALID_PASSWORDS) {
         const bodyWithInvalidPassword = {
           ...VALID_BODY,
