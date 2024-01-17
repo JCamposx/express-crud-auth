@@ -10,7 +10,7 @@ afterEach(async () => {
   const collections = await mongoose.connection.db.collections();
 
   for (const collection of collections) {
-    await collection.deleteMany({});
+    await collection.drop();
   }
 });
 
