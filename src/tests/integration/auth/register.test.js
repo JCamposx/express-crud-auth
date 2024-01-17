@@ -1,13 +1,13 @@
 import { VALID_REGISTER_BODY as VALID_BODY } from "./helpers/constants/validBody.js";
 import INVALID_PASSWORDS from "./helpers/constants/invalidPasswords.js";
-import TYPE_FETCHING from "../../../utils/constants/typeFetching.js";
+import TYPE_FETCHING from "../../helpers/constants/typeFetching.js";
 import INVALID_EMAILS from "./helpers/constants/invalidEmails.js";
 import FIELD_NAMES from "./helpers/constants/fieldNames.js";
-import ROUTES from "../../../utils/constants/routes.js";
+import ROUTES from "../../helpers/constants/routes.js";
 
-import sendHTTPRequest from "../../../utils/functions/sendHTTPRequest.js";
+import sendHTTPRequest from "../../helpers/functions/sendHTTPRequest.js";
 import createUser from "./helpers/functions/createUser.js";
-import url from "../../../utils/functions/urlBuilder.js";
+import url from "../../helpers/functions/urlBuilder.js";
 
 describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
   describe("when required data is missing", () => {

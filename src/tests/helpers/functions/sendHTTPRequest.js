@@ -2,7 +2,7 @@ import supertest from "supertest";
 
 import TYPE_FETCHING from "../constants/typeFetching.js";
 
-import app from "../../app.js";
+import app from "../../../app.js";
 
 const api = supertest(app);
 
