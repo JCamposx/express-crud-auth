@@ -11,7 +11,7 @@ const config = {
   verbose: true,
   silent: true,
   testEnvironment: "node",
-  maxWorkers: 1,
+  detectOpenHandles: true,
 };
 
 export default config;
