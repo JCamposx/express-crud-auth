@@ -5,7 +5,7 @@ import INVALID_EMAILS from "./helpers/constants/invalidEmails.js";
 import FIELD_NAMES from "./helpers/constants/fieldNames.js";
 import ROUTES from "../../helpers/constants/routes.js";
 
-import sendHTTPRequest from "../../helpers/functions/sendHTTPRequest.js";
+import api from "../../helpers/functions/sendHTTPRequest.js";
 import createUser from "./helpers/functions/createUser.js";
 import url from "../../helpers/functions/urlBuilder.js";
 
@@ -28,7 +28,7 @@ describe(`POST ${ROUTES.AUTH.LOGIN}`, () => {
           delete bodyWithMissingData[missingField];
         }
 
-        const response = await sendHTTPRequest({
+        const response = await api({
           url: url(ROUTES.AUTH.LOGIN),
           type: TYPE_FETCHING.POST,
           body: bodyWithMissingData,
@@ -63,7 +63,7 @@ describe(`POST ${ROUTES.AUTH.LOGIN}`, () => {
           [FIELD_NAMES.EMAIL]: invalidEmail,
         };
 
-        const response = await sendHTTPRequest({
+        const response = await api({
           url: url(ROUTES.AUTH.LOGIN),
           type: TYPE_FETCHING.POST,
           body: bodyWithInvalidEmail,
@@ -89,7 +89,7 @@ describe(`POST ${ROUTES.AUTH.LOGIN}`, () => {
           [FIELD_NAMES.PASSWORD]: invalidPassword,
         };
 
-        const response = await sendHTTPRequest({
+        const response = await api({
           url: url(ROUTES.AUTH.LOGIN),
           type: TYPE_FETCHING.POST,
           body: bodyWithInvalidPassword,
@@ -124,7 +124,7 @@ describe(`POST ${ROUTES.AUTH.LOGIN}`, () => {
         [FIELD_NAMES.PASSWORD]: USER_DATA[FIELD_NAMES.PASSWORD],
       };
 
-      const response = await sendHTTPRequest({
+      const response = await api({
         url: url(ROUTES.AUTH.LOGIN),
         type: TYPE_FETCHING.POST,
         body: bodyWithNotRegisteredEmail,
@@ -143,7 +143,7 @@ describe(`POST ${ROUTES.AUTH.LOGIN}`, () => {
         [FIELD_NAMES.PASSWORD]: "incorrectpassword",
       };
 
-      const response = await sendHTTPRequest({
+      const response = await api({
         url: url(ROUTES.AUTH.LOGIN),
         type: TYPE_FETCHING.POST,
         body: bodyWithIncorrectPassword,
@@ -157,7 +157,7 @@ describe(`POST ${ROUTES.AUTH.LOGIN}`, () => {
     });
 
     test("should return 200 and authenticate user if email and password are correct", async () => {
-      const response = await sendHTTPRequest({
+      const response = await api({
         url: url(ROUTES.AUTH.LOGIN),
         type: TYPE_FETCHING.POST,
         body: USER_DATA,

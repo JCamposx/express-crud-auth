@@ -1,7 +1,7 @@
 import TYPE_FETCHING from "../constants/typeFetching.js";
 import ROUTES from "../constants/routes.js";
 
-import sendHTTPRequest from "./sendHTTPRequest.js";
+import api from "./sendHTTPRequest.js";
 import url from "./urlBuilder.js";
 
 /**
@@ -23,7 +23,7 @@ const authenticateUser = async (data) => {
     password_confirmation: data.password,
   };
 
-  const response = await sendHTTPRequest({
+  const response = await api({
     url: url(ROUTES.AUTH.REGISTER),
     type: TYPE_FETCHING.POST,
     body: body,

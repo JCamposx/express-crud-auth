@@ -2,13 +2,13 @@ import TYPE_FETCHING from "../../helpers/constants/typeFetching.js";
 import ROUTES from "../../helpers/constants/routes.js";
 
 import authenticateUser from "../../helpers/functions/authenticateUser.js";
-import sendHTTPRequest from "../../helpers/functions/sendHTTPRequest.js";
+import api from "../../helpers/functions/sendHTTPRequest.js";
 import url from "../../helpers/functions/urlBuilder.js";
 
 describe(`POST ${ROUTES.AUTH.LOGOUT}`, () => {
   describe("when user is not authenticated", () => {
     test("should return 401", async () => {
-      const response = await sendHTTPRequest({
+      const response = await api({
         url: url(ROUTES.AUTH.LOGOUT),
         type: TYPE_FETCHING.POST,
       });
@@ -25,7 +25,7 @@ describe(`POST ${ROUTES.AUTH.LOGOUT}`, () => {
         password: "password1234",
       });
 
-      const response = await sendHTTPRequest({
+      const response = await api({
         url: url(ROUTES.AUTH.LOGOUT),
         type: TYPE_FETCHING.POST,
         cookies,

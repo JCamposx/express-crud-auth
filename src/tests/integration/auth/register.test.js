@@ -5,7 +5,7 @@ import INVALID_EMAILS from "./helpers/constants/invalidEmails.js";
 import FIELD_NAMES from "./helpers/constants/fieldNames.js";
 import ROUTES from "../../helpers/constants/routes.js";
 
-import sendHTTPRequest from "../../helpers/functions/sendHTTPRequest.js";
+import api from "../../helpers/functions/sendHTTPRequest.js";
 import createUser from "./helpers/functions/createUser.js";
 import url from "../../helpers/functions/urlBuilder.js";
 
@@ -32,7 +32,7 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
           delete bodyWithMissingData[missingField];
         }
 
-        const response = await sendHTTPRequest({
+        const response = await api({
           url: url(ROUTES.AUTH.REGISTER),
           type: TYPE_FETCHING.POST,
           body: bodyWithMissingData,
@@ -67,7 +67,7 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
           [FIELD_NAMES.EMAIL]: invalidEmail,
         };
 
-        const response = await sendHTTPRequest({
+        const response = await api({
           url: url(ROUTES.AUTH.REGISTER),
           type: TYPE_FETCHING.POST,
           body: bodyWithInvalidEmail,
@@ -94,7 +94,7 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
           [FIELD_NAMES.PASSWORD_CONFIRMATION]: invalidPassword,
         };
 
-        const response = await sendHTTPRequest({
+        const response = await api({
           url: url(ROUTES.AUTH.REGISTER),
           type: TYPE_FETCHING.POST,
           body: bodyWithInvalidPassword,
@@ -119,7 +119,7 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
         [FIELD_NAMES.PASSWORD_CONFIRMATION]: "test456",
       };
 
-      const response = await sendHTTPRequest({
+      const response = await api({
         url: url(ROUTES.AUTH.REGISTER),
         type: TYPE_FETCHING.POST,
         body: bodyWithInvalidPasswordConfirmation,
@@ -151,7 +151,7 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
         [FIELD_NAMES.EMAIL]: "new@email.com",
       };
 
-      const response = await sendHTTPRequest({
+      const response = await api({
         url: url(ROUTES.AUTH.REGISTER),
         type: TYPE_FETCHING.POST,
         body: bodyWithTakenUsername,
@@ -171,7 +171,7 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
         [FIELD_NAMES.EMAIL]: VALID_BODY[FIELD_NAMES.EMAIL],
       };
 
-      const response = await sendHTTPRequest({
+      const response = await api({
         url: url(ROUTES.AUTH.REGISTER),
         type: TYPE_FETCHING.POST,
         body: bodyWithTakenEmail,
@@ -196,7 +196,7 @@ describe(`POST ${ROUTES.AUTH.REGISTER}`, () => {
         [FIELD_NAMES.EMAIL]: NEW_DATA[FIELD_NAMES.EMAIL],
       };
 
-      const response = await sendHTTPRequest({
+      const response = await api({
         url: url(ROUTES.AUTH.REGISTER),
         type: TYPE_FETCHING.POST,
         body: bodyWithTakenEmail,
