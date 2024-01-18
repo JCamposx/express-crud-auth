@@ -1,19 +1,14 @@
-import { ZodError } from "zod";
-
 import INVALID_PASSWORDS from "./helpers/constants/invalidPasswords.js";
 import INVALID_EMAILS from "./helpers/constants/invalidEmails.js";
 
+import validateSchema from "../helpers/functions/validateSchema.js";
 import { loginSchema } from "../../../../schemas/auth.schema.js";
 
 describe("login schema", () => {
-  let errors;
-
   const VALID_DATA = {
     email: "valid@email.com",
     password: "password1234",
   };
-
-  afterEach(() => (errors = undefined));
 
   describe("when data is not correct", () => {
     describe("when email is not valid", () => {
@@ -22,24 +17,18 @@ describe("login schema", () => {
 
         delete dataWithoutEmail.email;
 
-        try {
-          loginSchema.parse(dataWithoutEmail);
-        } catch (error) {
-          expect(error).toBeInstanceOf(ZodError);
-
-          errors = error.errors;
-        }
-
-        expect(errors).toBeDefined();
-
-        expect(errors).toHaveLength(1);
-
-        expect(errors).toContainEqual(
-          expect.objectContaining({
+        const expectedErrors = [
+          {
             message: "Email is required",
             path: ["email"],
-          }),
-        );
+          },
+        ];
+
+        validateSchema({
+          schema: loginSchema,
+          data: dataWithoutEmail,
+          expectedErrors,
+        });
       });
 
       describe("when email doesn't have a correct format", () => {
@@ -51,24 +40,18 @@ describe("login schema", () => {
               email: invalidEmail,
             };
 
-            try {
-              loginSchema.parse(dataWithInvalidEmail);
-            } catch (error) {
-              expect(error).toBeInstanceOf(ZodError);
-
-              errors = error.errors;
-            }
-
-            expect(errors).toBeDefined();
-
-            expect(errors).toHaveLength(1);
-
-            expect(errors).toContainEqual(
-              expect.objectContaining({
+            const expectedErrors = [
+              {
                 message: "Invalid email format",
                 path: ["email"],
-              }),
-            );
+              },
+            ];
+
+            validateSchema({
+              schema: loginSchema,
+              data: dataWithInvalidEmail,
+              expectedErrors,
+            });
           },
         );
       });
@@ -80,24 +63,18 @@ describe("login schema", () => {
 
         delete dataWithoutPassword.password;
 
-        try {
-          loginSchema.parse(dataWithoutPassword);
-        } catch (error) {
-          expect(error).toBeInstanceOf(ZodError);
-
-          errors = error.errors;
-        }
-
-        expect(errors).toBeDefined();
-
-        expect(errors).toHaveLength(1);
-
-        expect(errors).toContainEqual(
-          expect.objectContaining({
+        const expectedErrors = [
+          {
             message: "Password is required",
             path: ["password"],
-          }),
-        );
+          },
+        ];
+
+        validateSchema({
+          schema: loginSchema,
+          data: dataWithoutPassword,
+          expectedErrors,
+        });
       });
 
       describe("when password length is less than 6 characters", () => {
@@ -109,24 +86,18 @@ describe("login schema", () => {
               password: invalidPassword,
             };
 
-            try {
-              loginSchema.parse(dataWithInvalidPassword);
-            } catch (error) {
-              expect(error).toBeInstanceOf(ZodError);
-
-              errors = error.errors;
-            }
-
-            expect(errors).toBeDefined();
-
-            expect(errors).toHaveLength(1);
-
-            expect(errors).toContainEqual(
-              expect.objectContaining({
+            const expectedErrors = [
+              {
                 message: "Password must be at least 6 characters",
                 path: ["password"],
-              }),
-            );
+              },
+            ];
+
+            validateSchema({
+              schema: loginSchema,
+              data: dataWithInvalidPassword,
+              expectedErrors,
+            });
           },
         );
       });
@@ -135,7 +106,13 @@ describe("login schema", () => {
 
   describe("when data completely correct", () => {
     test("should pass validation without any error", () => {
-      expect(() => loginSchema.parse(VALID_DATA)).not.toThrow();
+      const errors = validateSchema({
+        schema: loginSchema,
+        data: VALID_DATA,
+        shouldThrowError: false,
+      });
+
+      expect(errors).not.toBeDefined();
     });
   });
 });

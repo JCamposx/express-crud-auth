@@ -1,21 +1,16 @@
-import { ZodError } from "zod";
-
 import INVALID_PASSWORDS from "./helpers/constants/invalidPasswords.js";
 import INVALID_EMAILS from "./helpers/constants/invalidEmails.js";
 
+import validateSchema from "../helpers/functions/validateSchema.js";
 import { registerSchema } from "../../../../schemas/auth.schema.js";
 
 describe("register schema", () => {
-  let errors;
-
   const VALID_DATA = {
     username: "usertest",
     email: "user@test.com",
     password: "password1234",
     password_confirmation: "password1234",
   };
-
-  afterEach(() => (errors = undefined));
 
   describe("when data is not correct", () => {
     describe("when username is not valid", () => {
@@ -24,24 +19,18 @@ describe("register schema", () => {
 
         delete dataWithoutUsername.username;
 
-        try {
-          registerSchema.parse(dataWithoutUsername);
-        } catch (error) {
-          expect(error).toBeInstanceOf(ZodError);
-
-          errors = error.errors;
-        }
-
-        expect(errors).toBeDefined();
-
-        expect(errors).toHaveLength(1);
-
-        expect(errors).toContainEqual(
-          expect.objectContaining({
+        const expectedErrors = [
+          {
             message: "Username is required",
             path: ["username"],
-          }),
-        );
+          },
+        ];
+
+        validateSchema({
+          schema: registerSchema,
+          data: dataWithoutUsername,
+          expectedErrors,
+        });
       });
     });
 
@@ -51,24 +40,15 @@ describe("register schema", () => {
 
         delete dataWithoutEmail.email;
 
-        try {
-          registerSchema.parse(dataWithoutEmail);
-        } catch (error) {
-          expect(error).toBeInstanceOf(ZodError);
+        const expectedErrors = [
+          { message: "Email is required", path: ["email"] },
+        ];
 
-          errors = error.errors;
-        }
-
-        expect(errors).toBeDefined();
-
-        expect(errors).toHaveLength(1);
-
-        expect(errors).toContainEqual(
-          expect.objectContaining({
-            message: "Email is required",
-            path: ["email"],
-          }),
-        );
+        validateSchema({
+          schema: registerSchema,
+          data: dataWithoutEmail,
+          expectedErrors,
+        });
       });
 
       describe("when email doesn't have a correct format", () => {
@@ -80,24 +60,15 @@ describe("register schema", () => {
               email: invalidEmail,
             };
 
-            try {
-              registerSchema.parse(dataWithInvalidEmail);
-            } catch (error) {
-              expect(error).toBeInstanceOf(ZodError);
+            const expectedErrors = [
+              { message: "Invalid email format", path: ["email"] },
+            ];
 
-              errors = error.errors;
-            }
-
-            expect(errors).toBeDefined();
-
-            expect(errors).toHaveLength(1);
-
-            expect(errors).toContainEqual(
-              expect.objectContaining({
-                message: "Invalid email format",
-                path: ["email"],
-              }),
-            );
+            validateSchema({
+              schema: registerSchema,
+              data: dataWithInvalidEmail,
+              expectedErrors,
+            });
           },
         );
       });
@@ -111,26 +82,15 @@ describe("register schema", () => {
 
         expect(() => registerSchema.parse(dataWithoutPassword)).toThrow();
 
-        try {
-          registerSchema.parse(dataWithoutPassword);
+        const expectedErrors = [
+          { message: "Password is required", path: ["password"] },
+        ];
 
-          fail("Expected an exception to be thrown");
-        } catch (error) {
-          expect(error).toBeInstanceOf(ZodError);
-
-          errors = error.errors;
-        }
-
-        expect(errors).toBeDefined();
-
-        expect(errors).toHaveLength(1);
-
-        expect(errors).toContainEqual(
-          expect.objectContaining({
-            message: "Password is required",
-            path: ["password"],
-          }),
-        );
+        validateSchema({
+          schema: registerSchema,
+          data: dataWithoutPassword,
+          expectedErrors,
+        });
       });
 
       test("should throw an error if password confirmation is missing", () => {
@@ -138,24 +98,18 @@ describe("register schema", () => {
 
         delete dataWithoutPasswordConfirmation.password_confirmation;
 
-        try {
-          registerSchema.parse(dataWithoutPasswordConfirmation);
-        } catch (error) {
-          expect(error).toBeInstanceOf(ZodError);
-
-          errors = error.errors;
-        }
-
-        expect(errors).toBeDefined();
-
-        expect(errors).toHaveLength(1);
-
-        expect(errors).toContainEqual(
-          expect.objectContaining({
+        const expectedErrors = [
+          {
             message: "Password confirmation is required",
             path: ["password_confirmation"],
-          }),
-        );
+          },
+        ];
+
+        validateSchema({
+          schema: registerSchema,
+          data: dataWithoutPasswordConfirmation,
+          expectedErrors,
+        });
       });
 
       describe("when password and password confirmation length are less than 6 characters", () => {
@@ -168,31 +122,22 @@ describe("register schema", () => {
               password_confirmation: invalidPassword,
             };
 
-            try {
-              registerSchema.parse(dataWithInvalidPasswords);
-            } catch (error) {
-              expect(error).toBeInstanceOf(ZodError);
-
-              errors = error.errors;
-            }
-
-            expect(errors).toBeDefined();
-
-            expect(errors).toHaveLength(2);
-
-            expect(errors).toContainEqual(
-              expect.objectContaining({
+            const expectedErrors = [
+              {
                 message: "Password must be at least 6 characters",
                 path: ["password"],
-              }),
-            );
-
-            expect(errors).toContainEqual(
-              expect.objectContaining({
+              },
+              {
                 message: "Password confirmation must be at least 6 characters",
                 path: ["password_confirmation"],
-              }),
-            );
+              },
+            ];
+
+            validateSchema({
+              schema: registerSchema,
+              data: dataWithInvalidPasswords,
+              expectedErrors,
+            });
           },
         );
       });
@@ -203,31 +148,31 @@ describe("register schema", () => {
           password_confirmation: "somedifferentpassword",
         };
 
-        try {
-          registerSchema.parse(dataWithDifferentPasswordConfirmation);
-        } catch (error) {
-          expect(error).toBeInstanceOf(ZodError);
-
-          errors = error.errors;
-        }
-
-        expect(errors).toBeDefined();
-
-        expect(errors).toHaveLength(1);
-
-        expect(errors).toContainEqual(
-          expect.objectContaining({
+        const expectedErrors = [
+          {
             message: "Password confirmation must match the password",
             path: ["password_confirmation"],
-          }),
-        );
+          },
+        ];
+
+        validateSchema({
+          schema: registerSchema,
+          data: dataWithDifferentPasswordConfirmation,
+          expectedErrors,
+        });
       });
     });
   });
 
   describe("when data completely correct", () => {
     test("should pass validation without any error", () => {
-      expect(() => registerSchema.parse(VALID_DATA)).not.toThrow();
+      const errors = validateSchema({
+        schema: registerSchema,
+        data: VALID_DATA,
+        shouldThrowError: false,
+      });
+
+      expect(errors).not.toBeDefined();
     });
   });
 });
