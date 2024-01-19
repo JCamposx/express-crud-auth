@@ -15,12 +15,12 @@ import url from "./urlBuilder.js";
  * @param {string} data.password - The password of the user.
  * @returns {Promise<{ user: Object, cookies: string }>} - A promise that resolves with an object containing user information and cookies.
  */
-const authenticateUser = async (data) => {
+const authenticateUser = async ({ username, email, password }) => {
   const body = {
-    username: data.username,
-    email: data.email,
-    password: data.password,
-    password_confirmation: data.password,
+    username,
+    email,
+    password,
+    password_confirmation: password,
   };
 
   const response = await api({
