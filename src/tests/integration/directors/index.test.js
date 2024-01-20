@@ -1,6 +1,7 @@
 import TYPE_FETCHING from "../../helpers/constants/typeFetching.js";
 import ROUTES from "../../helpers/constants/routes.js";
 
+import checkUnauthenticatedResponse from "../../helpers/functions/checkUnauthenticatedResponse.js";
 import authenticateUser from "../../helpers/functions/authenticateUser.js";
 import api from "../../helpers/functions/sendHTTPRequest.js";
 import _ from "../../../utils/classes/validationError.js";
@@ -10,20 +11,10 @@ import url from "../../helpers/functions/urlBuilder.js";
 describe(`GET ${ROUTES.DIRECTORS.INDEX}`, () => {
   describe("when user is not authenticated", () => {
     test("should return 401 without any director data", async () => {
-      const response = await api({
+      await checkUnauthenticatedResponse({
         url: url(ROUTES.DIRECTORS.INDEX),
         type: TYPE_FETCHING.GET,
       });
-
-      expect(response.statusCode).toBe(401);
-
-      expect(response.body.data).not.toBeDefined();
-
-      expect(response.body).toEqual(
-        expect.objectContaining({
-          message: "No token has been provided",
-        }),
-      );
     });
   });
 
